@@ -1,64 +1,98 @@
-# Spec-Driven Development with OpenSpec
+# Bloom Filters: Build from Scratch and Learn
 
 ## Overview
-This repository demonstrates the use of the OpenSpec methodology for spec-driven development. It includes a variety of projects, each structured to follow a clear workflow from proposal to implementation and documentation.
+This project demonstrates the implementation of Bloom filters from scratch, providing a comprehensive understanding of their theory, practical applications, and memory efficiency. The implementation is available in both Python and Java.
 
-## Repository Structure
+## Features
+- **Probabilistic Data Structure**: Efficiently checks membership with a small memory footprint.
+- **Customizable Parameters**: Adjust false positive rates and memory usage.
+- **Multi-language Support**: Implementations in Python and Java.
+- **Comprehensive Guide**: Includes theory, formulas, examples, and real-world applications.
+
+## File Structure
 ```
 openspec/
-├── changes/                # Active changes being worked on
+├── changes/
 │   ├── build-bloomfilters-from-scratch-and-learn/
 │   │   ├── BloomFilterGuide.md  # Comprehensive guide to Bloom filters
 │   │   ├── BloomFilter.py       # Python implementation
 │   │   ├── BloomFilter.java     # Java implementation
-│   │   └── README.md            # Project-specific README
+│   │   └── README.md            # Project overview (this file)
 │   └── archive/                 # Archived changes
-├── specs/                   # Specifications for various projects
-├── config.yaml              # Configuration file for OpenSpec
-└── Guide.md                 # General guide to using OpenSpec
+├── specs/                       # Specifications for the project
+└── config.yaml                  # Configuration file
 ```
 
-## Getting Started
-1. Clone the repository:
+## Usage
+### Python
+1. Navigate to the project directory:
    ```bash
-   git clone <repository-url>
+   cd openspec/changes/build-bloomfilters-from-scratch-and-learn
    ```
-2. Navigate to the `openspec` directory:
+2. Run the Python implementation:
    ```bash
-   cd openspec
+   python BloomFilter.py
    ```
-3. Explore the projects under `changes/` to see active developments.
 
-## OpenSpec Methodology
-OpenSpec is a structured approach to software development that emphasizes:
-- **Proposals**: Clearly defining the goals and non-goals of a project.
-- **Specifications**: Creating detailed specs to guide implementation.
-- **Tasks**: Breaking down work into actionable tasks.
-- **Implementation**: Writing code that adheres to the specs.
-- **Documentation**: Providing comprehensive guides and READMEs.
-
-## Current Projects
-### 1. Build Bloom Filters from Scratch and Learn
-- **Description**: A project to implement Bloom filters from scratch, with a focus on learning and understanding their theory, applications, and memory efficiency.
-- **Location**: `openspec/changes/build-bloomfilters-from-scratch-and-learn/`
-- **Highlights**:
-  - Python and Java implementations.
-  - Comprehensive guide with examples and use cases.
-
-## Contributing
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
+### Java
+1. Compile the Java file:
    ```bash
-   git checkout -b feature-name
+   javac BloomFilter.java
    ```
-3. Commit your changes:
+2. Run the Java implementation:
    ```bash
-   git commit -m "Description of changes"
+   java BloomFilter
    ```
-4. Push to your fork and submit a pull request.
 
-## License
-This repository is licensed under the MIT License. See the `LICENSE` file for details.
+## Practical Applications
+- **Web Caching**: Quickly check if a URL is cached.
+- **Database Queries**: Test if a record exists before querying.
+- **Blockchain**: Verify transactions efficiently.
+- **Spell Checkers**: Identify potential misspellings.
+
+## Memory Efficiency
+Bloom filters are highly memory-efficient, as detailed in the [BloomFilterGuide.md](BloomFilterGuide.md). For example, a dataset requiring 100GB can be represented in just 1.2GB with a 1% false positive rate.
+
+## Memory Efficiency of Bloom Filters
+
+One of the key advantages of Bloom filters is their **memory efficiency**. They allow you to represent large datasets in a compact form, significantly reducing memory usage while enabling fast membership testing.
+
+### Example: Managing a 100GB Dataset
+- **Original Dataset**:
+  - Suppose you have a dataset of words that takes up 100GB of memory.
+  - Each word is stored in its entirety, consuming significant space.
+
+- **Bloom Filter Representation**:
+  - Instead of storing the words, a Bloom filter uses a bit array and hash functions to represent the dataset.
+  - For example, to store 1 billion words with a 1% false positive rate:
+    - **Bit Array Size (`m`)**: Using the formula:
+      $$
+m = -\frac{n \cdot \ln(p)}{(\ln(2))^2}
+      $$
+      For $n = 1,000,000,000$ (1 billion words) and $p = 0.01$ (1% false positive rate):
+      $$
+m \approx 9.58 \times 10^9 \text{ bits} \approx 1.2 \text{ GB}
+      $$
+    - **Hash Functions (`k`)**: Using the formula:
+      $$
+k = \frac{m}{n} \cdot \ln(2)
+      $$
+      For $m = 9.58 \times 10^9$ and $n = 1,000,000,000$:
+      $$
+k \approx 7
+      $$
+
+- **Memory Savings**:
+  - Instead of storing 100GB of words, the Bloom filter uses only **1.2GB** of memory.
+  - This is a significant reduction, making it feasible to handle large datasets in memory-constrained environments.
+
+### Trade-offs
+- **False Positives**:
+  - The Bloom filter may indicate that a word is in the set when it is not (1% false positive rate in this example).
+- **No Deletions**:
+  - Once a word is added, it cannot be removed without affecting other elements.
+
+---
 
 ## Acknowledgments
-Special thanks to the OpenSpec community for providing the tools and methodology to structure this repository.
+This project was developed using the OpenSpec methodology to ensure a structured and efficient workflow.
