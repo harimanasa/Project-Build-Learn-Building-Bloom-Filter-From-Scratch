@@ -397,3 +397,46 @@ For a 1000-bit Bloom filter, you can derive multiple hash functions from a singl
    - Ensure the chosen hash functions distribute values evenly across the 1000 bits.
 3. **Prioritize Speed**:
    - For smaller bit arrays, faster hash functions like MurmurHash or FNV are often more beneficial than cryptographic ones.
+
+---
+
+## Memory Efficiency of Bloom Filters
+
+One of the key advantages of Bloom filters is their **memory efficiency**. They allow you to represent large datasets in a compact form, significantly reducing memory usage while enabling fast membership testing.
+
+### Example: Managing a 100GB Dataset
+- **Original Dataset**:
+  - Suppose you have a dataset of words that takes up 100GB of memory.
+  - Each word is stored in its entirety, consuming significant space.
+
+- **Bloom Filter Representation**:
+  - Instead of storing the words, a Bloom filter uses a bit array and hash functions to represent the dataset.
+  - For example, to store 1 billion words with a 1% false positive rate:
+    - **Bit Array Size (`m`)**: Using the formula:
+      $$
+m = -\frac{n \cdot \ln(p)}{(\ln(2))^2}
+      $$
+      For $n = 1,000,000,000$ (1 billion words) and $p = 0.01$ (1% false positive rate):
+      $$
+m \approx 9.58 \times 10^9 \text{ bits} \approx 1.2 \text{ GB}
+      $$
+    - **Hash Functions (`k`)**: Using the formula:
+      $$
+k = \frac{m}{n} \cdot \ln(2)
+      $$
+      For $m = 9.58 \times 10^9$ and $n = 1,000,000,000$:
+      $$
+k \approx 7
+      $$
+
+- **Memory Savings**:
+  - Instead of storing 100GB of words, the Bloom filter uses only **1.2GB** of memory.
+  - This is a significant reduction, making it feasible to handle large datasets in memory-constrained environments.
+
+### Trade-offs
+- **False Positives**:
+  - The Bloom filter may indicate that a word is in the set when it is not (1% false positive rate in this example).
+- **No Deletions**:
+  - Once a word is added, it cannot be removed without affecting other elements.
+
+---
